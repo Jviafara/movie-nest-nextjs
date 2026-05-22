@@ -13,21 +13,19 @@ const ThemeButton = () => {
     dispatch(setThemeMode(theme))
   }
   return (
-    <div>
-      <button onClick={themeToggle}>
-        {themeMode === 'dark' ? (
-          <Sun
-            size={24}
-            className='text-primary'
-          />
-        ) : (
-          <Moon
-            size={24}
-            className='text-primary'
-          />
-        )}
-      </button>
-    </div>
+    <button onClick={themeToggle}>
+      {themeMode === 'dark' ? (
+        <Sun
+          size={24}
+          className='text-primary'
+        />
+      ) : (
+        <Moon
+          size={24}
+          className='text-primary'
+        />
+      )}
+    </button>
   )
 }
 

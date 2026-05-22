@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar'
 import ScrollButton from '@/components/ScrollButton'
 import StoreProvider from './StoreProvider'
 import ThemeProvider from './ThemeProvider'
+import AuthModal from '@/components/AuthModal'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -37,6 +38,9 @@ export default function RootLayout({
           <ThemeProvider />
           <ToastProvider>
             <div className='flex flex-col'>
+              {/* login modal */}
+              <AuthModal />
+              {/* login modal */}
               {/* header */}
               <div className='w-full top-0 left-0 z-10 flex flex-col items-center bg-gray-200 bg-opacity-50 backdrop-blur-2xl'>
                 <Navbar />
