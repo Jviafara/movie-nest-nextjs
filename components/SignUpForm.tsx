@@ -26,7 +26,6 @@ const SignUpForm = ({ switchAuthState }: ISignInForm) => {
     setLoading(true)
 
     try {
-      console.log(email, password, name)
       const result = await signUp.email({ email, password, name })
 
       if (result.error) {

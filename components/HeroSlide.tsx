@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import CircularRate from './CircularRate'
+import RedPills from './RedPills'
 
 const HeroSlide = ({ mediaType, mediaCategory }: TMBD_PARAMS) => {
   const dispatch = useAppDispatch()
@@ -65,24 +67,22 @@ const HeroSlide = ({ mediaType, mediaCategory }: TMBD_PARAMS) => {
               }}
               className='pt-[130%] sm:pt-[80%] md:pt-[60%] lg:pt-[45%] bg-cover bg-top'
             />
-            <div className='w-full min-h-fit h-full flex flex-col gap-2 items-center md:items-start justify-center xl:pb-24 md:gap-8 absolute top-0 left-0  px-[15px] md:px-[5rem] lg:px-[10rem] bg-gradient-to-t from-base-100'>
-              <h1 className='text-[2rem] lg:text-[4rem] font-bold text-center md:text-left w-full md:truncate text-primary'>
-                {movie.title || movie.name}
-              </h1>
+            <div className='w-full min-h-fit h-full flex flex-col gap-2 items-center md:items-start justify-center xl:pb-24 md:gap-8 absolute top-0 left-0  px-3.75 md:px-20 lg:px-40 bg-linear-to-t from-base-100'>
+              <h1 className='text-[2rem] lg:text-[4rem] font-bold text-center md:text-left w-full md:truncate text-primary'>{movie.title || movie.name}</h1>
               <div className='flex gap-8 items-center'>
                 {/* rating */}
-                {/* <CircularRate value={movie.vote_average} /> */}
+                <CircularRate value={movie.vote_average || 0} />
                 {/* rating */}
 
                 {/* genres */}
-                {/* <div className='flex gap-4'>
-                  {[...movie.genre_ids].splice(0, 2).map((genreId, index) => (
+                <div className='flex gap-4'>
+                  {(movie.genre_ids ?? []).slice(0, 2).map((genreId, index) => (
                     <RedPills
                       key={index}
-                      item={genres.find(e => e.id === genreId) && genres.find(e => e.id === genreId).name}
+                      item={genres.find(e => e.id === genreId)?.name}
                     />
                   ))}
-                </div> */}
+                </div>
                 {/* genres */}
               </div>
               {/* overview */}

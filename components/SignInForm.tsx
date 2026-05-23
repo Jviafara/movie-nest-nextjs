@@ -44,7 +44,6 @@ const SignInForm = ({ switchAuthState }: ISignInForm) => {
 
     try {
       const result = await signIn.social({ provider: 'google' })
-      console.log(result)
       if (result.error) {
         setError(result.error.message ?? 'Error al iniciar sesión, Intenta nuevamente.')
       }
