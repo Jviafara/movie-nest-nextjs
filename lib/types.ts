@@ -13,3 +13,19 @@ export type MediaRoute = {
     all: string[]
   }
 }
+
+export interface Movie {
+  id: number
+  title?: string
+  name?: string
+  overview: string
+  backdrop_path?: string
+  poster_path?: string
+  vote_average?: number
+  genre_ids?: number[]
+}
+
+export interface Genre {
+  id: number
+  name: string
+}

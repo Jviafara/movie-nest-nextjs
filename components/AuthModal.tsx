@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import Logo from './Logo'
 import { useState } from 'react'
 import SignInForm from './SignInForm'
+import SignUpForm from './SignUpForm'
 
 const actionState = {
   signin: 'signin',
@@ -20,7 +21,6 @@ const AuthModal = () => {
 
   const switchAuthState = (state: string) => {
     setAction(state)
-    console.log(state)
   }
 
   return (
@@ -56,8 +56,7 @@ const AuthModal = () => {
                 <SignInForm switchAuthState={() => switchAuthState(actionState.signup)} />
               )}
               {action === actionState.signup && (
-                <p>Sign Up</p>
-                // <SignupForm switchAuthState={() => switchAuthState(actionState.signin)} />
+                <SignUpForm switchAuthState={() => switchAuthState(actionState.signin)} />
               )}
             </div>
           </motion.div>

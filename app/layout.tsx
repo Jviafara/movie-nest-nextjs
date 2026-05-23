@@ -7,6 +7,12 @@ import ScrollButton from '@/components/ScrollButton'
 import StoreProvider from './StoreProvider'
 import ThemeProvider from './ThemeProvider'
 import AuthModal from '@/components/AuthModal'
+import { ToastContainer } from 'react-toastify'
+
+// Import Swiper styles
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -38,6 +44,15 @@ export default function RootLayout({
           <ThemeProvider />
           <ToastProvider>
             <div className='flex flex-col'>
+              <ToastContainer
+                position='bottom-left'
+                autoClose={1000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                pauseOnFocusLoss
+                pauseOnHover
+              />
               {/* login modal */}
               <AuthModal />
               {/* login modal */}

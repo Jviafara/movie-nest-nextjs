@@ -14,13 +14,13 @@ import { setAppState } from '@/lib/redux/features/appStateSlice'
 import { IMenuConfig } from '../lib/configs/menu.configs'
 import { setAuthModalOpen } from '@/lib/redux/features/authModalSlice'
 import { useSession } from '@/lib/auth/auth-client'
+import UserMenu from './UserMenu'
 
 const Navbar = () => {
   const { data: session } = useSession()
 
   const { appState } = useAppSelector(state => state.appState)
   const nameSplit = session?.user?.name.split(' ') || []
-  console.log(nameSplit)
   const dispatch = useAppDispatch()
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -35,12 +35,12 @@ const Navbar = () => {
   }
 
   const toggleUserMenu = () => {
-    // setUserMenuOpen(!userMenuOpen)
-    // if (setUserMenuOpen) {
-    //   setTimeout(() => {
-    //     setUserMenuOpen(false)
-    //   }, 5000)
-    // }
+    setUserMenuOpen(!userMenuOpen)
+    if (setUserMenuOpen) {
+      setTimeout(() => {
+        setUserMenuOpen(false)
+      }, 5000)
+    }
   }
 
   return (
@@ -48,13 +48,13 @@ const Navbar = () => {
       {/* <Sidebar
         open={sidebarOpen}
         toggleSidebar={toggleSidebar}
-      />
+      /> */}
       <UserMenu
         open={userMenuOpen}
         toggleUserMenu={toggleUserMenu}
-      /> */}
+      />
       <div className='absolute w-full h-auto flex justify-between items-center py-4 px-8 bg-base-300/70 '>
-        <div className='md:hidden cursor-pointer flex gap-4 items-center justify-between hful'>
+        <div className='md:hidden cursor-pointer flex gap-4 items-center justify-between'>
           <button
             onClick={toggleSidebar}
             className='hover:scale-105 cursor-pointer'
@@ -128,18 +128,18 @@ const Navbar = () => {
             </button>
           )}
         </div>
-        <div className='hidden sm:inline-flex cursor-pointer'>
+        <div className='hidden sm:inline-flex'>
           {session?.user ? (
             <button
               onClick={toggleUserMenu}
-              className='bg-secondary text-white text-lg px-2 py-1 rounded-full font-medium hover:scale-105'
+              className='bg-secondary text-white text-lg px-2 py-1 rounded-full font-medium cursor-pointer hover:scale-105'
             >
               {nameSplit[0].charAt(0).toUpperCase() || 'U'}
               {nameSplit.length > 1 && nameSplit[1].charAt(0).toUpperCase()}
             </button>
           ) : (
             <button
-              className='uppercase bg-secondary px-4 py-2 rounded-xl text-white'
+              className='uppercase cursor-pointer bg-secondary px-4 py-2 rounded-xl text-white'
               onClick={() => dispatch(setAuthModalOpen(true))}
             >
               Sign In
