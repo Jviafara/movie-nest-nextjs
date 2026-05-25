@@ -13,6 +13,7 @@ import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import CircularRate from './CircularRate'
 import RedPills from './RedPills'
+import { setGlobalLoading } from '@/lib/redux/features/globalLoadingSlice'
 
 const HeroSlide = ({ mediaType, mediaCategory }: TMBD_PARAMS) => {
   const dispatch = useAppDispatch()
@@ -29,11 +30,11 @@ const HeroSlide = ({ mediaType, mediaCategory }: TMBD_PARAMS) => {
       })
       if (res) setMovies(res.results)
       if (message) toast.error(message)
-      //   dispatch(setGlobalLoading(false))
+      dispatch(setGlobalLoading(false))
     }
 
     const getGenres = async () => {
-      // dispatch(setGlobalLoading(true))
+      dispatch(setGlobalLoading(true))
       const { res, message } = await genreApi.getList({ mediaType })
       if (res) {
         setGenres(res.genres)
@@ -41,7 +42,7 @@ const HeroSlide = ({ mediaType, mediaCategory }: TMBD_PARAMS) => {
       }
       if (message) {
         toast.error(message)
-        //   setGlobalLoading(false)
+        dispatch(setGlobalLoading(true))
       }
     }
 
@@ -68,7 +69,9 @@ const HeroSlide = ({ mediaType, mediaCategory }: TMBD_PARAMS) => {
               className='pt-[130%] sm:pt-[80%] md:pt-[60%] lg:pt-[45%] bg-cover bg-top'
             />
             <div className='w-full min-h-fit h-full flex flex-col gap-2 items-center md:items-start justify-center xl:pb-24 md:gap-8 absolute top-0 left-0  px-3.75 md:px-20 lg:px-40 bg-linear-to-t from-base-100'>
-              <h1 className='text-[2rem] lg:text-[4rem] font-bold text-center md:text-left w-full md:truncate text-primary'>{movie.title || movie.name}</h1>
+              <h1 className='text-[2rem] lg:text-[4rem] font-bold text-center md:text-left w-full md:truncate text-primary'>
+                {movie.title || movie.name}
+              </h1>
               <div className='flex gap-8 items-center'>
                 {/* rating */}
                 <CircularRate value={movie.vote_average || 0} />

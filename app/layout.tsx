@@ -8,6 +8,7 @@ import StoreProvider from './StoreProvider'
 import ThemeProvider from './ThemeProvider'
 import AuthModal from '@/components/AuthModal'
 import { ToastContainer } from 'react-toastify'
+import GlobalLoading from '@/components/GlobalLoading'
 
 // Import Swiper styles
 import 'swiper/css'
@@ -53,6 +54,11 @@ export default function RootLayout({
                 pauseOnFocusLoss
                 pauseOnHover
               />
+
+              {/* global loading */}
+              <GlobalLoading />
+              {/* global loading */}
+
               {/* login modal */}
               <AuthModal />
               {/* login modal */}
