@@ -32,7 +32,7 @@ const CircularRate = ({ value }: ICircularRate) => {
       >
         {/* Background Circle (Track) */}
         <circle
-          className='text-gray-200'
+          className='text-transparent'
           strokeWidth={strokeWidth}
           stroke='currentColor'
           fill='transparent'

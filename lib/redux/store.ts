@@ -2,11 +2,13 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import themeModeSlice from './features/themeModeSlice'
 import appStateSlice from './features/appStateSlice'
 import authModalSlice from './features/authModalSlice'
+import { globalLoadingSlice } from './features/globalLoadingSlice'
 
 const rootReducer = combineReducers({
   themeMode: themeModeSlice,
   appState: appStateSlice,
   authModalOpen: authModalSlice,
+  globalLoading: globalLoadingSlice,
 })
 
 export const store = configureStore({
