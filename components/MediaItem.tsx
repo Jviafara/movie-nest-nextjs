@@ -11,7 +11,8 @@ interface IMediaSlide {
 
 const MediaItem = ({ media, mediaType }: IMediaSlide) => {
   const title = media.title || media.name || media.original_title || media.original_name || 'Untitled'
-  const posterPath = media.poster_path || media.backdrop_path ? tmdbConfigs.posterPath(media.poster_path || media.backdrop_path || '') : ''
+  const posterPath =
+    media.poster_path || media.backdrop_path || media.profile_path ? tmdbConfigs.posterPath(media.poster_path || media.backdrop_path || media.profile_path || '') : ''
   const releaseDate = mediaType === tmdbConfigs.mediaType.movie ? (media.release_date?.split('-')[0] ?? '') : (media.first_air_date?.split('-')[0] ?? '')
   const rate = media.vote_average
 

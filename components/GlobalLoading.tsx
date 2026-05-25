@@ -13,6 +13,21 @@ const GlobalLoading = () => {
   const previousPathname = useRef(pathname)
 
   useEffect(() => {
+    const firstLoading = () => {
+      setRouteLoading(true)
+
+      const timeout = window.setTimeout(() => {
+        setRouteLoading(false)
+      }, 500)
+
+      return () => {
+        window.clearTimeout(timeout)
+      }
+    }
+    firstLoading()
+  }, [])
+
+  useEffect(() => {
     if (previousPathname.current === pathname) return
 
     previousPathname.current = pathname

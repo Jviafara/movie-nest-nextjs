@@ -1,9 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-// import { setAuthModalOpen } from '../../redux/features/authModalSlice'
-// import Sidebar from './Sidebar'
-// import UserMenu from './UserMenu'
+import { useEffect, useRef, useState } from 'react'
 import { Menu } from 'lucide-react'
 import Logo from './Logo'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks/redux.hooks'
@@ -15,6 +12,7 @@ import { IMenuConfig } from '../lib/configs/menu.configs'
 import { setAuthModalOpen } from '@/lib/redux/features/authModalSlice'
 import { useSession } from '@/lib/auth/auth-client'
 import UserMenu from './UserMenu'
+import Sidebar from './Sidebar'
 
 const Navbar = () => {
   const { data: session } = useSession()
@@ -25,6 +23,14 @@ const Navbar = () => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const userMenuTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const clearUserMenuTimeout = () => {
+    if (userMenuTimeoutRef.current) {
+      clearTimeout(userMenuTimeoutRef.current)
+      userMenuTimeoutRef.current = null
+    }
+  }
 
   const handleClick = (item: IMenuConfig) => {
     dispatch(setAppState(item.state))
@@ -35,20 +41,35 @@ const Navbar = () => {
   }
 
   const toggleUserMenu = () => {
-    setUserMenuOpen(!userMenuOpen)
-    if (setUserMenuOpen) {
-      setTimeout(() => {
-        setUserMenuOpen(false)
-      }, 5000)
-    }
+    setUserMenuOpen(prev => {
+      const next = !prev
+
+      if (next) {
+        clearUserMenuTimeout()
+        userMenuTimeoutRef.current = setTimeout(() => {
+          setUserMenuOpen(false)
+          userMenuTimeoutRef.current = null
+        }, 5000)
+      } else {
+        clearUserMenuTimeout()
+      }
+
+      return next
+    })
   }
+
+  useEffect(() => {
+    return () => {
+      clearUserMenuTimeout()
+    }
+  }, [])
 
   return (
     <div className='w-full relative'>
-      {/* <Sidebar
+      <Sidebar
         open={sidebarOpen}
         toggleSidebar={toggleSidebar}
-      /> */}
+      />
       <UserMenu
         open={userMenuOpen}
         toggleUserMenu={toggleUserMenu}
@@ -68,6 +89,7 @@ const Navbar = () => {
           <Link
             href='/'
             className='mb-1'
+            onClick={() => dispatch(setAppState('home'))}
           >
             <Logo />
           </Link>
@@ -107,7 +129,10 @@ const Navbar = () => {
         </nav>
 
         <div className='hover:scale-105 hidden lg:inline-flex lg:absolute lg:top-1/2 lg:left-1/2  lg:transform lg:-translate-x-1/2 lg:-translate-y-1/2'>
-          <Link href='/'>
+          <Link
+            href='/'
+            onClick={() => dispatch(setAppState('home'))}
+          >
             <Logo />
           </Link>
         </div>
