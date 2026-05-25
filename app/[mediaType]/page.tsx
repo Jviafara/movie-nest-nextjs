@@ -60,7 +60,7 @@ const Page = () => {
 
   const onCategoryChange = (categoryIndex: number) => {
     if (currCategory === categoryIndex) return
-    setMedias([])
+
     setCurrPage(1)
     setCurrCategory(categoryIndex)
   }

@@ -44,6 +44,7 @@ export interface Media {
   vote_average: number
   vote_count: number
   media_type?: 'movie' | 'tv' | 'person'
+  profile_path: string | null
 }
 
 export interface Genre {
