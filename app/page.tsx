@@ -2,11 +2,41 @@
 import Container from '@/components/Container'
 import HeroSlide from '@/components/HeroSlide'
 import MediaSlide from '@/components/MediaSlide'
+import { useSession } from '@/lib/auth/auth-client'
 import tmdbConfigs from '@/lib/configs/tmbd.configs'
-import { useAppSelector } from '@/lib/hooks/redux.hooks'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks/redux.hooks'
+import { setListFavorites } from '@/lib/redux/features/favoriteSlice'
+import { useEffect } from 'react'
 
 export default function Home() {
+  const { data: session } = useSession()
   const { themeMode } = useAppSelector(state => state.themeMode)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const response = await fetch('/api/favorite', {
+          method: 'GET',
+          credentials: 'include',
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch favorites')
+        }
+
+        const data = await response.json()
+        console.log(data)
+        dispatch(setListFavorites(data))
+      } catch (err) {
+        dispatch(setListFavorites(null))
+        console.error(err)
+      }
+    }
+    if (!session?.user) return
+    fetchFavorites()
+  }, [dispatch, session])
+
   return (
     <div
       className='w-full h-full min-h-screen'

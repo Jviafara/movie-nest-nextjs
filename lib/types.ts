@@ -51,3 +51,16 @@ export interface Genre {
   id: number
   name: string
 }
+
+export interface Favorite {
+  user: string
+  mediaType: 'movie' | 'tv'
+  mediaId: string
+  mediaTitle: string
+  mediaPoster: string
+  mediaRate: number
+}
+export interface ICheckFavorite {
+  favoriteList: Favorite[]
+  mediaId: string
+}
