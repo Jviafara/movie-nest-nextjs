@@ -3,12 +3,14 @@ import themeModeSlice from './features/themeModeSlice'
 import appStateSlice from './features/appStateSlice'
 import authModalSlice from './features/authModalSlice'
 import { globalLoadingSlice } from './features/globalLoadingSlice'
+import favoriteSlice from './features/favoriteSlice'
 
 const rootReducer = combineReducers({
   themeMode: themeModeSlice,
   appState: appStateSlice,
   authModalOpen: authModalSlice,
   globalLoading: globalLoadingSlice,
+  favoriteList: favoriteSlice,
 })
 
 export const store = configureStore({

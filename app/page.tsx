@@ -5,8 +5,8 @@ import MediaSlide from '@/components/MediaSlide'
 import { useSession } from '@/lib/auth/auth-client'
 import tmdbConfigs from '@/lib/configs/tmbd.configs'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks/redux.hooks'
-import { setListFavorites } from '@/lib/redux/features/favoriteSlice'
 import { useEffect } from 'react'
+import { setFavoriteList } from '@/lib/redux/features/favoriteSlice'
 
 export default function Home() {
   const { data: session } = useSession()
@@ -21,15 +21,10 @@ export default function Home() {
           credentials: 'include',
         })
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch favorites')
-        }
-
         const data = await response.json()
-        console.log(data)
-        dispatch(setListFavorites(data))
+        dispatch(setFavoriteList(data))
       } catch (err) {
-        dispatch(setListFavorites(null))
+        dispatch(setFavoriteList(null))
         console.error(err)
       }
     }

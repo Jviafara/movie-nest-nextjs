@@ -13,7 +13,7 @@ export const favoriteSlice = createSlice({
   name: 'favoriteList',
   initialState,
   reducers: {
-    setListFavorites: (state, action) => {
+    setFavoriteList: (state, action) => {
       state.favoriteList = action.payload
     },
     removeFavorite: (state, action) => {
@@ -26,5 +26,5 @@ export const favoriteSlice = createSlice({
   },
 })
 
-export const { setListFavorites, removeFavorite, addFavorite } = favoriteSlice.actions
+export const { setFavoriteList, removeFavorite, addFavorite } = favoriteSlice.actions
 export default favoriteSlice.reducer

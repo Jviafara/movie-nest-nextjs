@@ -3,7 +3,6 @@ import { ICheckFavorite, Media } from '@/lib/types'
 import { Heart, Play } from 'lucide-react'
 import Link from 'next/link'
 import CircularRate from './CircularRate'
-import { useEffect, useState } from 'react'
 import { useAppSelector } from '@/lib/hooks/redux.hooks'
 
 interface IMediaSlide {
@@ -14,12 +13,18 @@ interface IMediaSlide {
 const MediaItem = ({ media, mediaType }: IMediaSlide) => {
   const title = media.title || media.name || media.original_title || media.original_name || 'Untitled'
   const posterPath =
-    media.poster_path || media.backdrop_path || media.profile_path ? tmdbConfigs.posterPath(media.poster_path || media.backdrop_path || media.profile_path || '') : ''
-  const releaseDate = mediaType === tmdbConfigs.mediaType.movie ? (media.release_date?.split('-')[0] ?? '') : (media.first_air_date?.split('-')[0] ?? '')
+    media.poster_path || media.backdrop_path || media.profile_path
+      ? tmdbConfigs.posterPath(media.poster_path || media.backdrop_path || media.profile_path || '')
+      : ''
+  const releaseDate =
+    mediaType === tmdbConfigs.mediaType.movie
+      ? (media.release_date?.split('-')[0] ?? '')
+      : (media.first_air_date?.split('-')[0] ?? '')
   const rate = media.vote_average
-  const favoriteList = useAppSelector(state => state.favoriteList)
+  const { favoriteList } = useAppSelector(state => state.favoriteList)
 
-  const chekFavorite = ({ favoriteList, mediaId }: ICheckFavorite) => favoriteList && favoriteList.find(e => e.mediaId.toString() === mediaId.toString()) !== undefined
+  const chekFavorite = ({ favoriteList, mediaId }: ICheckFavorite) =>
+    favoriteList && favoriteList.find(e => e.mediaId.toString() === mediaId.toString()) !== undefined
 
   return (
     <Link

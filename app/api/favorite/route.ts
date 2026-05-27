@@ -12,6 +12,8 @@ export async function GET(req: NextRequest) {
     if (!session?.user) {
       return responseHandler.unauthorize()
     }
+
+    await connectDB()
     const favorites = await Favorite.find({
       user: session?.user.id,
     }).sort('-createdAt')
@@ -21,27 +23,57 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
+    const session = await auth.api.getSession({
+      headers: req.headers,
+    })
+    if (!session?.user) {
+      return responseHandler.unauthorize()
+    }
     await connectDB()
-    const { userId, data } = await request.json()
-
+    const data = await req.json()
     const isFavorite = await Favorite.findOne({
-      user: userId,
+      user: session.user.id,
       mediaId: data.mediaId,
     })
     if (isFavorite) return responseHandler.ok(isFavorite)
 
     const favorite = new Favorite({
       ...data,
-      user: userId,
+      user: session.user.id,
     })
 
     await favorite.save()
 
     return responseHandler.created(data)
   } catch (err) {
-    console.log(err)
+    console.error(err)
+    return responseHandler.error()
+  }
+}
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  try {
+    const session = await auth.api.getSession({
+      headers: req.headers,
+    })
+    if (!session?.user) {
+      return responseHandler.unauthorize()
+    }
+    const favoriteId = params.id
+    await connectDB()
+
+    const isFavorite = await Favorite.findOne({
+      _id: favoriteId,
+    })
+    if (!isFavorite) return responseHandler.notFound()
+
+    await Favorite.findByIdAndDelete(favoriteId)
+
+    return responseHandler.justOk()
+  } catch (err) {
+    console.error(err)
     return responseHandler.error()
   }
 }

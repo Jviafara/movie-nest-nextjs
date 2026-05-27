@@ -25,6 +25,19 @@ export interface Movie {
   genre_ids?: number[]
 }
 
+export interface mediaImages {
+  id: string
+  backdrops: []
+  logos: []
+  posters: []
+}
+export interface mediaRecommended {
+  page: string
+  results: []
+  total_pages: number
+  total_results: number
+}
+
 export interface Media {
   adult: boolean
   backdrop_path: string | null
@@ -42,9 +55,12 @@ export interface Media {
   name?: string
   video?: boolean
   vote_average: number
+  mediaRate?: number
   vote_count: number
   media_type?: 'movie' | 'tv' | 'person'
   profile_path: string | null
+  images?: mediaImages
+  recommend?: mediaRecommended
 }
 
 export interface Genre {
@@ -63,4 +79,12 @@ export interface Favorite {
 export interface ICheckFavorite {
   favoriteList: Favorite[]
   mediaId: string
+}
+
+export interface FavoriteParams {
+  mediaType: 'movie' | 'tv'
+  mediaId: number
+  mediaTitle: string
+  mediaPoster: string
+  mediaRate: number
 }

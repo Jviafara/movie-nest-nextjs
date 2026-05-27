@@ -14,6 +14,9 @@ const error = () =>
 const badRequest = (message: string) => responseWithData({ status: 400, message }, 400)
 
 const ok = (data: any) => responseWithData(data, 200)
+
+const justOk = () => NextResponse.json({ status: 200 })
+
 const created = (data: any) => responseWithData(data, 201)
 
 const unauthorize = () => responseWithData({ status: 401, message: 'Unauthorized' }, 401)
@@ -25,6 +28,7 @@ const responseHandler = {
   error,
   badRequest,
   ok,
+  justOk,
   created,
   unauthorize,
   notFound,
