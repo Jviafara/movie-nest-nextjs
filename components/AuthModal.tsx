@@ -22,6 +22,10 @@ const AuthModal = () => {
   const switchAuthState = (state: string) => {
     setAction(state)
   }
+  const handleClickOutside = () => {
+    dispatch(setAuthModalOpen(false))
+    setAction(actionState.signin)
+  }
 
   return (
     <>
@@ -37,7 +41,7 @@ const AuthModal = () => {
           {/* <!-- Backdrop with Fade-In Blur --> */}
           <div
             className='absolute inset-0 bg-black/50 backdrop-blur-sm'
-            onClick={() => dispatch(setAuthModalOpen(false))}
+            onClick={handleClickOutside}
           ></div>
 
           {/* <!-- Modal Content with Scale-In Animation --> */}

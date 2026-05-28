@@ -28,8 +28,10 @@ const HeroSlide = ({ mediaType, mediaCategory }: TMBD_PARAMS) => {
         mediaCategory,
         page: '1',
       })
-      if (res) setMovies(res.results)
       if (message) toast.error(message)
+      if (res.status >= 400) {
+        toast.error(res.message)
+      } else if (res) setMovies(res.results)
       dispatch(setGlobalLoading(false))
     }
 

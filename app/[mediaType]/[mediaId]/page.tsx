@@ -5,20 +5,26 @@ import Container from '@/components/Container'
 import FavoriteButton from '@/components/FavoriteButton'
 import ImageHeader from '@/components/ImageHeader'
 import MediaSlide from '@/components/MediaSlide'
+import MediaVideosSlide from '@/components/MediaVideosSlide'
 import RedPills from '@/components/RedPills'
 import { useSession } from '@/lib/auth/auth-client'
 import tmdbConfigs from '@/lib/configs/tmbd.configs'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks/redux.hooks'
 import favoriteApi from '@/lib/modules/favoriteApi'
 import mediaApi from '@/lib/modules/mediaApi'
+import { setAppState } from '@/lib/redux/features/appStateSlice'
 import { setAuthModalOpen } from '@/lib/redux/features/authModalSlice'
 import { addFavorite, removeFavorite } from '@/lib/redux/features/favoriteSlice'
 import { setGlobalLoading } from '@/lib/redux/features/globalLoadingSlice'
-import { Favorite, FavoriteParams, Genre, Media } from '@/lib/types'
+import { Favorite, FavoriteParams, Genre, IMediaVideo, Media } from '@/lib/types'
 import { Play } from 'lucide-react'
 import { notFound, useParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
+import PosterSlides from '@/components/PosterSlides'
+import BackDropSlide from '@/components/BackDropSlide'
+import CastSlide from '@/components/CastSlide'
+import RecommendSlide from '@/components/RecommendSlide'
 
 const MediaDetailsPage = () => {
   const { data: session } = useSession()
@@ -34,6 +40,7 @@ const MediaDetailsPage = () => {
   }
 
   const [media, setMedia] = useState<Media>()
+  const [videos, setVideos] = useState<IMediaVideo[]>([])
   const [isFavorite, setIsFavorite] = useState(false)
   const [onRequest, setOnRequest] = useState(false)
   const [genres, setGenres] = useState<Genre[]>([])
@@ -42,6 +49,7 @@ const MediaDetailsPage = () => {
   const videoRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    dispatch(setAppState(null))
     const getMedia = async () => {
       dispatch(setGlobalLoading(true))
       const { res, message } = await mediaApi.getDetail({
@@ -52,7 +60,11 @@ const MediaDetailsPage = () => {
       if (res.status_code) {
         notFound()
       }
+      console.log(res)
       setMedia(res)
+      if (res.videos) {
+        setVideos([...res.videos.results].splice(0, 5))
+      }
       setIsFavorite(res.isFavorite)
       setGenres(res.genres.splice(0, 2))
       if (message) {
@@ -81,9 +93,10 @@ const MediaDetailsPage = () => {
 
       const { res, message } = await favoriteApi.add(body)
       setOnRequest(false)
-
       if (message) toast.error(message)
-      if (res) {
+      if (res.status >= 400) {
+        toast.error(res.message)
+      } else if (res) {
         dispatch(addFavorite(res))
         setIsFavorite(true)
         toast.success(`${mediaType} added to favorites`)
@@ -101,9 +114,10 @@ const MediaDetailsPage = () => {
       const favorite = favoriteList.find((e: Favorite) => e.mediaId.toString() === media.id.toString())
       const { res, message } = await favoriteApi.remove(favorite._id)
       setOnRequest(false)
-
       if (message) toast.error(message)
-      if (res) {
+      if (res.status >= 400) {
+        toast.error(res.message)
+      } else if (res) {
         dispatch(removeFavorite(res))
         setIsFavorite(false)
         toast.success(`Media remove from favorites`)
@@ -178,10 +192,10 @@ const MediaDetailsPage = () => {
                     isFavorite={isFavorite}
                   />
                   {/* watch now */}
-                  <div className='px-4 py-2 text-xl font-semibold text-white bg-secondary w-fit rounded-lg'>
+                  <div className='px-4 py-2 text-xl font-semibold text-white bg-secondary w-fit rounded-lg cursor-pointer'>
                     <button
                       onClick={handlePlay}
-                      className='flex gap-3'
+                      className='flex gap-3 cursor-pointer'
                     >
                       <Play size={28} /> Watch Now
                     </button>
@@ -191,7 +205,7 @@ const MediaDetailsPage = () => {
                 {/* Buttons */}
 
                 {/* Cast */}
-                <Container header='Cast'>{/* <CastSlide cast={media.credits.cast} /> */}.</Container>
+                <Container header='Cast'>{media?.credits && <CastSlide cast={media.credits.cast} />}</Container>
                 {/* Cast */}
               </div>
             </div>
@@ -205,21 +219,25 @@ const MediaDetailsPage = () => {
           ref={videoRef}
           style={{ paddingTop: '2rem' }}
         >
-          <Container header='Videos'>
-            .{/* <MediaVideosSlide videos={[...media.videos.results].splice(0, 5)} /> */}
-          </Container>
+          {videos && (
+            <Container header='Videos'>
+              <MediaVideosSlide videos={videos} />
+            </Container>
+          )}
         </div>
         {/* Media Video */}
 
         {/* Media Backdrops */}
         {media.images!.backdrops.length > 0 && (
-          <Container header={'backdrops'}>.{/* <BackDropSlide backdrops={media.images.backdrops} /> */}</Container>
+          <Container header={'backdrops'}>
+            {media.images && <BackDropSlide backdrops={media.images.backdrops || []} />}
+          </Container>
         )}
         {/* Media Backdrops */}
 
         {/* Media Posters */}
         {media.images!.posters.length > 0 && (
-          <Container header={'posters'}>.{/* <PosterSlide posters={media.images.posters} /> */}</Container>
+          <Container header={'posters'}>{media.images && <PosterSlides posters={media.images.posters} />}</Container>
         )}
         {/* Media Posters */}
 
@@ -234,11 +252,12 @@ const MediaDetailsPage = () => {
         {/* Media Recommendations */}
         {media.recommend!.results.length > 0 && (
           <Container header={'recommendations'}>
-            .
-            {/* <RecommendSlide
-              medias={media.recommend.results}
-              mediaType={mediaType}
-            /> */}
+            {media.recommend && (
+              <RecommendSlide
+                medias={media.recommend.results}
+                mediaType={mediaType}
+              />
+            )}
           </Container>
         )}
         {media.recommend!.results.length === 0 && (

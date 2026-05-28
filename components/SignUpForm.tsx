@@ -139,7 +139,7 @@ const SignUpForm = ({ switchAuthState }: ISignInForm) => {
           <button
             type='submit'
             disabled={loading}
-            className={`w-full rounded-md  ${loading || password.length < 8 ? 'bg-gray-400' : 'bg-primary/70 transition hover:bg-primary cursor-pointer'}  py-2 text-lg font-medium text-white `}
+            className={`w-full rounded-md  ${loading || password.length < 8 ? 'bg-gray-400' : 'bg-secondary/70 transition hover:bg-primary cursor-pointer'}  py-2 text-lg font-medium text-white `}
           >
             {loading ? 'Signing up...' : 'Sign Up'}
           </button>

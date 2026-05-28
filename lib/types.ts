@@ -27,15 +27,32 @@ export interface Movie {
 
 export interface mediaImages {
   id: string
-  backdrops: []
-  logos: []
-  posters: []
+  backdrops: MediaImage[]
+  logos: MediaImage[]
+  posters: MediaImage[]
 }
 export interface mediaRecommended {
   page: string
   results: []
   total_pages: number
   total_results: number
+}
+
+export interface MediaImage {
+  aspect_ratio: number
+  file_path: string
+  height: number
+  iso_639_1: string | null
+  iso_3166_1: string | null
+  vote_average: number
+  vote_count: number
+  width: number
+}
+
+interface Credits {
+  id: number
+  cast: []
+  crew: []
 }
 
 export interface Media {
@@ -54,6 +71,7 @@ export interface Media {
   title?: string
   name?: string
   video?: boolean
+  videos?: { results?: IMediaVideo[] }
   vote_average: number
   mediaRate?: number
   vote_count: number
@@ -61,6 +79,7 @@ export interface Media {
   profile_path: string | null
   images?: mediaImages
   recommend?: mediaRecommended
+  credits?: Credits
 }
 
 export interface Genre {
@@ -87,4 +106,32 @@ export interface FavoriteParams {
   mediaTitle: string
   mediaPoster: string
   mediaRate: number
+}
+
+export interface IMediaVideo {
+  id: string
+  iso_639_1: string
+  iso_3166_1: string
+  key: string
+  name: string
+  official: true
+  published_at: string
+  site: string
+  size: number
+  type: string
+}
+
+export interface CastMember {
+  adult: boolean
+  cast_id: number
+  character: string
+  credit_id: string
+  gender: number
+  id: number
+  known_for_department: string
+  name: string
+  order: number
+  original_name: string
+  popularity: number
+  profile_path: string | null
 }

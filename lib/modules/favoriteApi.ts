@@ -2,9 +2,9 @@ import { BASE_URL } from '../constants'
 import { FavoriteParams } from '../types'
 
 const favoriteEndpoints = {
-  list: '/favorite',
-  add: '/favorite',
-  remove: (favoriteId: string) => `/favorite?id=${favoriteId}`,
+  list: 'favorite',
+  add: 'favorite',
+  remove: (favoriteId: string) => `favorite/${favoriteId}`,
 }
 
 const favoriteApi = {

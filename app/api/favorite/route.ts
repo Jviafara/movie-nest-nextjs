@@ -46,32 +46,7 @@ export async function POST(req: NextRequest) {
 
     await favorite.save()
 
-    return responseHandler.created(data)
-  } catch (err) {
-    console.error(err)
-    return responseHandler.error()
-  }
-}
-
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  try {
-    const session = await auth.api.getSession({
-      headers: req.headers,
-    })
-    if (!session?.user) {
-      return responseHandler.unauthorize()
-    }
-    const favoriteId = params.id
-    await connectDB()
-
-    const isFavorite = await Favorite.findOne({
-      _id: favoriteId,
-    })
-    if (!isFavorite) return responseHandler.notFound()
-
-    await Favorite.findByIdAndDelete(favoriteId)
-
-    return responseHandler.justOk()
+    return responseHandler.created({ ...data, _id: favorite._id })
   } catch (err) {
     console.error(err)
     return responseHandler.error()
