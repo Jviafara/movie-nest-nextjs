@@ -1,3 +1,5 @@
+import { auth } from '@/lib/auth/auth'
+import Favorite from '@/lib/models/favorite'
 import connectDB from '@/lib/mongodb'
 import responseHandler from '@/lib/responseHandler'
 import TMDBApi from '@/lib/tmdb/tmdbApi'
@@ -37,6 +39,18 @@ export async function GET(req: NextRequest, { params }: MediaRoute) {
       media.recommend = await TMDBApi.mediaRecommended({ mediaType, mediaId: all[1] })
 
       media.images = await TMDBApi.mediaImages({ mediaType, mediaId: all[1] })
+
+      const session = await auth.api.getSession({
+        headers: req.headers,
+      })
+
+      if (session?.user) {
+        const isFavorite = await Favorite.findOne({
+          user: session?.user.id,
+          mediaId: media.id,
+        })
+        media.isFavorite = isFavorite !== null
+      }
 
       return responseHandler.ok(media)
     } else if (all.length >= 1) {

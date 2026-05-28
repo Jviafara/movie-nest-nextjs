@@ -18,22 +18,27 @@ const SearchPage = () => {
   const [medias, setMedias] = useState<Media[]>([])
   const [page, setPage] = useState(1)
 
-  const search = useCallback(async (nextQuery: string, nextPage: number, nextMediaType = mediaType) => {
-    setOnSearch(true)
+  const search = useCallback(
+    async (nextQuery: string, nextPage: number, nextMediaType = mediaType) => {
+      setOnSearch(true)
 
-    const { res, message } = await mediaApi.search({
-      mediaType: nextMediaType,
-      query: nextQuery,
-      page: nextPage.toString(),
-    })
+      const { res, message } = await mediaApi.search({
+        mediaType: nextMediaType,
+        query: nextQuery,
+        page: nextPage.toString(),
+      })
 
-    setOnSearch(false)
-    if (message) toast.error(message)
-    if (res) {
-      if (nextPage > 1) setMedias(m => [...m, ...res.results])
-      else setMedias(res.results)
-    }
-  }, [mediaType])
+      setOnSearch(false)
+      if (message) toast.error(message)
+      if (res.status >= 400) {
+        toast.error(res.message)
+      } else if (res) {
+        if (nextPage > 1) setMedias(m => [...m, ...res.results])
+        else setMedias(res.results)
+      }
+    },
+    [mediaType],
+  )
 
   const onCategoryChange = (selectedCategory: string) => {
     setMediaType(selectedCategory)

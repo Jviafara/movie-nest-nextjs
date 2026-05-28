@@ -49,7 +49,9 @@ const Page = () => {
       dispatch(setGlobalLoading(false))
 
       if (message) toast.error(message)
-      if (res) {
+      if (res.status >= 400) {
+        toast.error(res.message)
+      } else if (res) {
         if (currPage !== 1) setMedias(m => [...m, ...res.results])
         else setMedias([...res.results])
       }
