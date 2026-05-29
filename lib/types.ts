@@ -1,3 +1,5 @@
+import mongoose from 'mongoose'
+
 export interface TMBD_PARAMS {
   mediaId?: string
   mediaType?: string
@@ -80,6 +82,7 @@ export interface Media {
   images?: mediaImages
   recommend?: mediaRecommended
   credits?: Credits
+  reviews?: Review[]
 }
 
 export interface Genre {
@@ -134,4 +137,31 @@ export interface CastMember {
   original_name: string
   popularity: number
   profile_path: string | null
+}
+export interface User {
+  _id: string
+  id?: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image: string
+}
+export interface Review {
+  _id: string
+  user: User
+  content: string
+  mediaType: 'movie' | 'tv'
+  mediaId: number
+  mediaTitle: string
+  mediaPoster: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface ReviewParams {
+  mediaId: number
+  mediaType: 'movie' | 'tv'
+  mediaTitle: string
+  mediaPoster: string
+  content: string
 }

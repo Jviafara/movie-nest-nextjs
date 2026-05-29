@@ -25,6 +25,7 @@ import PosterSlides from '@/components/PosterSlides'
 import BackDropSlide from '@/components/BackDropSlide'
 import CastSlide from '@/components/CastSlide'
 import RecommendSlide from '@/components/RecommendSlide'
+import MediaReview from '@/components/MediaReview'
 
 const MediaDetailsPage = () => {
   const { data: session } = useSession()
@@ -60,13 +61,13 @@ const MediaDetailsPage = () => {
       if (res.status_code) {
         notFound()
       }
-      console.log(res)
+
       setMedia(res)
       if (res.videos) {
-        setVideos([...res.videos.results].splice(0, 5))
+        setVideos([...res.videos.results].slice(0, 5))
       }
       setIsFavorite(res.isFavorite)
-      setGenres(res.genres.splice(0, 2))
+      setGenres(res.genres.slice(0, 2))
       if (message) {
         toast.error(message)
       }
@@ -205,7 +206,9 @@ const MediaDetailsPage = () => {
                 {/* Buttons */}
 
                 {/* Cast */}
-                <Container header='Cast'>{media?.credits && <CastSlide cast={media.credits.cast} />}</Container>
+                {media?.credits && (
+                  <Container header='Cast'>{media?.credits && <CastSlide cast={media.credits.cast} />}</Container>
+                )}
                 {/* Cast */}
               </div>
             </div>
@@ -236,17 +239,17 @@ const MediaDetailsPage = () => {
         {/* Media Backdrops */}
 
         {/* Media Posters */}
-        {media.images!.posters.length > 0 && (
+        {media?.images!.posters.length > 0 && (
           <Container header={'posters'}>{media.images && <PosterSlides posters={media.images.posters} />}</Container>
         )}
         {/* Media Posters */}
 
         {/* Media Reviews */}
-        {/* <MediaReview
-          reviews={media.reviews}
+        <MediaReview
+          reviews={media.reviews || []}
           media={media}
           mediaType={mediaType}
-        /> */}
+        />
         {/* Media Reviews */}
 
         {/* Media Recommendations */}

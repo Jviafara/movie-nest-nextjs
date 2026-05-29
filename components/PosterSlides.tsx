@@ -9,8 +9,20 @@ interface PosterSlideProps {
 
 const PosterSlides = ({ posters }: PosterSlideProps) => {
   return (
-    <AutoSwiper>
-      {posters.splice(0, 10).map((item, index) => (
+    <AutoSwiper
+      breakpoints={{
+        0: {
+          slidesPerView: 1,
+        },
+        640: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        },
+      }}
+    >
+      {posters.slice(0, posters.length <= 10 ? posters.length : 10).map((item, index) => (
         <SwiperSlide
           key={index}
           className='className="swiper-slide w-[50%] sm:w-[35%] md:w-[25%] lg:w-[20.5%]"'

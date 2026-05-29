@@ -4,7 +4,7 @@ interface ICircularRate {
 
 const CircularRate = ({ value }: ICircularRate) => {
   let color = ''
-  const percentage = parseInt(value.toFixed(1)) * 10
+  const percentage = parseInt(value?.toFixed(1) || '0') * 10
   const size = 64
   const strokeWidth = 4
   const radius = (size - strokeWidth) / 2
@@ -55,7 +55,9 @@ const CircularRate = ({ value }: ICircularRate) => {
         />
       </svg>
       {/* Percentage Text */}
-      <span className='absolute text-primary text-base md:text-lg lg:text-xl font-semibold'>{value.toFixed(1)}</span>
+      <span className='absolute text-primary text-base md:text-lg lg:text-xl font-semibold'>
+        {value ? value.toFixed(1) : 0}
+      </span>
     </div>
   )
 }

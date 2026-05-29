@@ -1,5 +1,7 @@
 import { auth } from '@/lib/auth/auth'
 import Favorite from '@/lib/models/favorite'
+import Review from '@/lib/models/review'
+import { User } from '@/lib/models/user'
 import connectDB from '@/lib/mongodb'
 import responseHandler from '@/lib/responseHandler'
 import TMDBApi from '@/lib/tmdb/tmdbApi'
@@ -51,6 +53,7 @@ export async function GET(req: NextRequest, { params }: MediaRoute) {
         })
         media.isFavorite = isFavorite !== null
       }
+      media.reviews = await Review.find({ mediaId: media.id }).populate('user').sort('-createdAt')
 
       return responseHandler.ok(media)
     } else if (all.length >= 1) {

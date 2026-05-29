@@ -19,7 +19,7 @@ const favoriteApi = {
       const res = await response.json()
       return { res }
     } catch (err) {
-      return { message: 'Failed to fetch the media!', err }
+      return { message: 'Failed to fetch the favorite!', err }
     }
   },
   add: async ({ mediaId, mediaType, mediaTitle, mediaPoster, mediaRate }: FavoriteParams) => {
@@ -36,7 +36,7 @@ const favoriteApi = {
       const res = await response.json()
       return { res }
     } catch (err) {
-      return { message: 'Failed to fetch the media!', err }
+      return { message: 'Failed to Create the favorite!', err }
     }
   },
   remove: async (favoriteId: string) => {
@@ -48,7 +48,7 @@ const favoriteApi = {
       const res = await response.json()
       return { res }
     } catch (err) {
-      return { message: 'Failed to fetch the media!', err }
+      return { message: 'Failed to delete the favorite!', err }
     }
   },
 }

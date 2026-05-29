@@ -70,7 +70,7 @@ const SearchPage = () => {
   }
 
   return (
-    <div className='w-full min-h-screen pt-32 flex flex-col gap-8'>
+    <div className='w-full min-h-screen pt-32 flex flex-col gap-8 mb-15'>
       <div className='w-full flex justify-center gap-6'>
         {mediaTypes.map((item, index) => (
           <button
