@@ -1,4 +1,5 @@
 import { Heart } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 interface FavoriteButtonProps {
   loading: boolean
@@ -10,9 +11,18 @@ const FavoriteButton = ({ loading, onFavoriteClick, isFavorite }: FavoriteButton
   return (
     <div>
       {loading ? (
-        <button>
-          <span className='loading loading-spinner text-secondary'></span>
-        </button>
+        <motion.div
+          style={{
+            width: '25px',
+            height: '25px',
+            border: '1px solid transparent',
+            borderTop: '2px solid var(--secondary)',
+            borderLeft: '2px solid var(--secondary)',
+            borderRadius: '50%',
+          }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+        />
       ) : (
         <div className='cursor-pointer'>
           {isFavorite ? (

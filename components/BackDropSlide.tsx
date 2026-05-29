@@ -11,7 +11,7 @@ const BackDropSlide = ({ backdrops }: BackDropSlideProps) => {
   return (
     <div className='w-full '>
       <NavigationSwiper>
-        {[...backdrops].splice(0, 10).map((item, index) => (
+        {[...backdrops].slice(0, 10).map((item, index) => (
           <SwiperSlide
             key={index}
             className='swipper-slide'

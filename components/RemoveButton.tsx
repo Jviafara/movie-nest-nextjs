@@ -1,11 +1,13 @@
+import { Trash2 } from 'lucide-react'
 import { motion } from 'framer-motion'
-interface ILoadingButton {
+
+interface IRemoveButton {
   loading: boolean
-  onLoadMore: () => void
+  onRemove: () => void
 }
-const LoadingButton = ({ loading, onLoadMore }: ILoadingButton) => {
+const RemoveButton = ({ loading, onRemove }: IRemoveButton) => {
   return (
-    <div className='mx-auto'>
+    <div>
       {loading ? (
         <motion.div
           style={{
@@ -21,14 +23,17 @@ const LoadingButton = ({ loading, onLoadMore }: ILoadingButton) => {
         />
       ) : (
         <button
-          onClick={onLoadMore}
-          className='px-4 py-2 bg-secondary text-white uppercase font-semibold text-lg rounded-md'
+          onClick={onRemove}
+          className='cursor-pointer'
         >
-          load more
+          <Trash2
+            color='red'
+            size={20}
+          />
         </button>
       )}
     </div>
   )
 }
 
-export default LoadingButton
+export default RemoveButton

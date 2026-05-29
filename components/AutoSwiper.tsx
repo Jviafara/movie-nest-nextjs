@@ -3,7 +3,7 @@ import { Swiper, type SwiperProps } from 'swiper/react'
 
 interface AutoSwiperProps {
   children: React.ReactNode
-  slidesPerView?: number
+  slidesPerView?: number | 'auto'
   spaceBetween?: number
   breakpoints?: SwiperProps['breakpoints']
 }

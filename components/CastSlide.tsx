@@ -15,16 +15,13 @@ const CastSlide = ({ cast }: CastSlideProps) => {
         grabCursor={true}
         breakpoints={{
           0: {
-            slidesPerView: 3,
+            slidesPerView: cast.length < 3 ? cast.length : 3,
           },
           640: {
-            slidesPerView: 4,
-          },
-          768: {
-            slidesPerView: 5,
+            slidesPerView: cast.length < 4 ? cast.length : 4,
           },
           1024: {
-            slidesPerView: 6,
+            slidesPerView: cast.length < 5 ? cast.length : 5,
           },
         }}
       >
