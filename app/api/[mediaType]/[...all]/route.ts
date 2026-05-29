@@ -53,7 +53,12 @@ export async function GET(req: NextRequest, { params }: MediaRoute) {
         })
         media.isFavorite = isFavorite !== null
       }
-      media.reviews = await Review.find({ mediaId: media.id }).populate('user').sort('-createdAt')
+
+      const users = await User.find()
+      console.log(users)
+      // const reviews = await Review.find({ mediaId: media.id }).sort('-createdAt')
+      const reviews = await Review.find({ mediaId: media.id }).populate('user').sort('-createdAt')
+      console.log(reviews)
 
       return responseHandler.ok(media)
     } else if (all.length >= 1) {
