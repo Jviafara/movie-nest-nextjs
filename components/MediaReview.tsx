@@ -114,7 +114,7 @@ const MediaReview = ({ reviews, media, mediaType }: IMediaReview) => {
             </div>
             {session?.user && (
               <>
-                {filteredReviews.length <= 0 && <hr />}
+                {filteredReviews.length <= 0 && <hr className='text-primary' />}
                 <div className='flex gap-2 items-center'>
                   <TextAvatar text={session.user.name} />
                   <div className='flex flex-col gap-2 grow'>

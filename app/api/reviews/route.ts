@@ -33,7 +33,6 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     }
     await connectDB()
     const data = await req.json()
-    console.log(data)
     const review = await Review.create({
       user: session.user.id,
       ...data,

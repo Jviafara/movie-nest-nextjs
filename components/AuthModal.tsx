@@ -31,7 +31,6 @@ const AuthModal = () => {
     <>
       {authModalOpen && (
         <motion.div
-          //   id='modal'
           key='modal'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
