@@ -61,7 +61,6 @@ const MediaDetailsPage = () => {
       if (res.status_code) {
         notFound()
       }
-
       setMedia(res)
       if (res.videos) {
         setVideos([...res.videos.results].slice(0, 5))

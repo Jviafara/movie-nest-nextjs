@@ -5,6 +5,7 @@ import menuConfigs, { IMenuConfig } from '@/lib/configs/menu.configs'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks/redux.hooks'
 import { setAppState } from '@/lib/redux/features/appStateSlice'
 import { LogOut } from 'lucide-react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 interface IUserMenu {
@@ -22,13 +23,13 @@ const UserMenu = ({ open, toggleUserMenu }: IUserMenu) => {
   const handleClick = (item: IMenuConfig) => {
     toggleUserMenu()
     dispatch(setAppState(item.state))
+    toggleUserMenu()
   }
 
   const signout = async () => {
     toggleUserMenu()
     const result = await signOut()
     if (result.data) {
-      toggleUserMenu()
       router.push('/')
     } else {
       alert('Error cerrar sesión, Intenta nuevamente.')
@@ -53,21 +54,23 @@ const UserMenu = ({ open, toggleUserMenu }: IUserMenu) => {
                   key={index}
                 >
                   {appState === item.state ? (
-                    <button
+                    <Link
+                      href={item.path}
                       className='uppercase flex gap-2 items-center py-1 bg-secondary px-4 rounded-xl text-white'
                       onClick={() => handleClick(item)}
                     >
                       <item.icon size={24} />
                       {item.display}
-                    </button>
+                    </Link>
                   ) : (
-                    <button
+                    <Link
+                      href={item.path}
                       className='uppercase flex gap-2 items-center rounded-lg hover:bg-secondary/40 hover:px-2'
                       onClick={() => handleClick(item)}
                     >
                       <item.icon size={24} />
                       {item.display}
-                    </button>
+                    </Link>
                   )}
                 </li>
               ))}

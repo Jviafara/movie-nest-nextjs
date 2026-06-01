@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks/redux.hooks'
 import { setAppState } from '@/lib/redux/features/appStateSlice'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import Logo from './Logo'
 import menuConfigs, { IMenuConfig } from '@/lib/configs/menu.configs'
 import { LogOut } from 'lucide-react'
@@ -26,15 +26,15 @@ const Sidebar = ({ open, toggleSidebar }: ISidebarProps) => {
   const { appState } = useAppSelector(state => state.appState)
 
   const handleClick = (item: IMenuConfig) => {
+    toggleSidebar()
     dispatch(setAppState(item.state))
     toggleSidebar()
-    // navigate(item.path)
   }
 
   const signout = async () => {
+    toggleSidebar()
     const result = await signOut()
     if (result.data) {
-      toggleSidebar()
       router.push('/')
     } else {
       alert('Error cerrar sesión, Intenta nuevamente.')
@@ -98,21 +98,23 @@ const Sidebar = ({ open, toggleSidebar }: ISidebarProps) => {
                   key={index}
                 >
                   {appState === item.state ? (
-                    <button
+                    <Link
+                      href={item.path}
                       className='uppercase flex gap-2 items-center py-1 bg-secondary px-4 rounded-xl text-white'
                       onClick={() => handleClick(item)}
                     >
                       <item.icon size={24} />
                       {item.display}
-                    </button>
+                    </Link>
                   ) : (
-                    <button
+                    <Link
+                      href={item.path}
                       className='uppercase flex gap-2 items-center rounded-lg hover:bg-secondary/40 hover:px-2'
                       onClick={() => handleClick(item)}
                     >
                       <item.icon size={24} />
                       {item.display}
-                    </button>
+                    </Link>
                   )}
                 </li>
               ))}

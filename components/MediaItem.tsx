@@ -11,16 +11,19 @@ interface IMediaSlide {
 }
 
 const MediaItem = ({ media, mediaType }: IMediaSlide) => {
-  const title = media.title || media.name || media.original_title || media.original_name || 'Untitled'
+  const title =
+    media.title || media.name || media.original_title || media.original_name || media.mediaTitle || 'Untitled'
   const posterPath =
-    media.poster_path || media.backdrop_path || media.profile_path
-      ? tmdbConfigs.posterPath(media.poster_path || media.backdrop_path || media.profile_path || '')
+    media.poster_path || media.backdrop_path || media.profile_path || media.mediaPoster || ''
+      ? tmdbConfigs.posterPath(
+          media.poster_path || media.backdrop_path || media.profile_path || media.mediaPoster || '',
+        )
       : ''
   const releaseDate =
     mediaType === tmdbConfigs.mediaType.movie
       ? (media.release_date?.split('-')[0] ?? '')
       : (media.first_air_date?.split('-')[0] ?? '')
-  const rate = media.vote_average
+  const rate = media.vote_average || media.mediaRate || 0
   const { favoriteList } = useAppSelector(state => state.favoriteList)
 
   const chekFavorite = ({ favoriteList, mediaId }: ICheckFavorite) =>
@@ -28,7 +31,7 @@ const MediaItem = ({ media, mediaType }: IMediaSlide) => {
 
   return (
     <Link
-      href={`/${mediaType}/${media.id}`}
+      href={`/${mediaType}/${media.id || media.mediaId}`}
       className='group relative'
     >
       <div
@@ -39,7 +42,7 @@ const MediaItem = ({ media, mediaType }: IMediaSlide) => {
       />
       {chekFavorite({
         favoriteList,
-        mediaId: media.id.toString(),
+        mediaId: media.id ? media.id.toString() : media.mediaId || '',
       }) && (
         <div className='absolute top-2 right-2 text-secondary'>
           <Heart size={32} />

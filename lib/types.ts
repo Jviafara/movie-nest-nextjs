@@ -62,8 +62,10 @@ export interface Media {
   backdrop_path: string | null
   genre_ids: number[]
   id: number
+  mediaId?: string
   original_language: string
   original_title?: string
+  mediaTitle?: string
   original_name?: string
   overview: string
   popularity: number
@@ -78,7 +80,9 @@ export interface Media {
   mediaRate?: number
   vote_count: number
   media_type?: 'movie' | 'tv' | 'person'
+  mediaType?: 'movie' | 'tv' | 'person'
   profile_path: string | null
+  mediaPoster?: string
   images?: mediaImages
   recommend?: mediaRecommended
   credits?: Credits

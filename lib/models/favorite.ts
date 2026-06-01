@@ -1,8 +1,9 @@
+import './user'
 import mongoose, { Schema } from 'mongoose'
 
 enum MediaTypeEnum {
   tv = 'tv',
-  movie = ' movie',
+  movie = 'movie',
 }
 
 interface IFavoriteModel {
