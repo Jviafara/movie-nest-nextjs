@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 interface ILoadingButton {
-  loading: boolean
+  loading?: boolean
   onLoadMore: () => void
 }
 const LoadingButton = ({ loading, onLoadMore }: ILoadingButton) => {
