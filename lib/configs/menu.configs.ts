@@ -1,4 +1,4 @@
-import { Heart, House, LockIcon, LucideIcon, Search, Sliders, Star, Tv } from 'lucide-react'
+import { Heart, House, LucideIcon, Search, Sliders, Star, Tv } from 'lucide-react'
 
 export interface IMenuConfig {
   display: string
@@ -46,12 +46,6 @@ const user = [
     path: '/reviews',
     icon: Star,
     state: 'reviews',
-  },
-  {
-    display: 'password update',
-    path: '/password-update',
-    icon: LockIcon,
-    state: 'password-update',
   },
 ]
 
