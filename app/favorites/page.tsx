@@ -46,7 +46,7 @@ const FavoriteListPage = () => {
   }
 
   const onRemoved = (id: string) => {
-    const newMedias = [...medias].filter(e => e.id.toString() !== id)
+    const newMedias = [...medias].filter(e => e.mediaId !== id)
     setMedias(newMedias)
     setFilteredMedias([...newMedias].splice(0, page * skip))
     setCount(count - 1)
