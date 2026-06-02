@@ -4,7 +4,7 @@ import connectDB from '@/lib/mongodb'
 import responseHandler from '@/lib/responseHandler'
 import { NextRequest } from 'next/server'
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth.api.getSession({
       headers: req.headers,
