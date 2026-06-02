@@ -10,10 +10,10 @@ export interface TMBD_PARAMS {
 }
 
 export type MediaRoute = {
-  params: {
-    mediaType?: string
+  params: Promise<{
+    mediaType: string
     all: string[]
-  }
+  }>
 }
 
 export interface Movie {

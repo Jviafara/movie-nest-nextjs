@@ -24,7 +24,7 @@ const FavoriteItem = ({ media, onRemoved }: FavoriteItemsProps) => {
     setOnRequest(true)
     if (media) {
       const favorite = favoriteList.find((e: Favorite) => e.mediaId.toString() === media.mediaId)
-      const { res, message } = await favoriteApi.remove(favorite._id)
+      const { res, message } = await favoriteApi.remove(favorite?._id || '')
       setOnRequest(false)
       if (message) toast.error(message)
       if (res.status >= 400) {
