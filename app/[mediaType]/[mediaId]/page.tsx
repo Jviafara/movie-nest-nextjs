@@ -51,13 +51,12 @@ const MediaDetailsPage = () => {
 
   useEffect(() => {
     dispatch(setAppState(null))
+    dispatch(setGlobalLoading(true))
     const getMedia = async () => {
-      dispatch(setGlobalLoading(true))
       const { res, message } = await mediaApi.getDetail({
         mediaType,
         mediaId,
       })
-      dispatch(setGlobalLoading(false))
       if (res.status_code) {
         notFound()
       }
@@ -70,6 +69,7 @@ const MediaDetailsPage = () => {
       if (message) {
         toast.error(message)
       }
+      if (res) dispatch(setGlobalLoading(false))
     }
     getMedia()
   }, [dispatch, mediaId, mediaType, favoriteList])
@@ -112,7 +112,7 @@ const MediaDetailsPage = () => {
 
     if (media) {
       const favorite = favoriteList.find((e: Favorite) => e.mediaId.toString() === media.id.toString())
-      const { res, message } = await favoriteApi.remove(favorite._id)
+      const { res, message } = await favoriteApi.remove(favorite?._id || '')
       setOnRequest(false)
       if (message) toast.error(message)
       if (res.status >= 400) {
@@ -142,9 +142,7 @@ const MediaDetailsPage = () => {
             <div className='w-[70%] sm:w-[50%] md:w-[40%] mt-0 mb-8 md:my-0 md:ml-8'>
               <div
                 style={{
-                  backgroundImage: `url(${tmdbConfigs.backdropPath(
-                    tmdbConfigs.posterPath(media.backdrop_path || media.poster_path!),
-                  )})`,
+                  backgroundImage: `url(${tmdbConfigs.backdropPath(tmdbConfigs.posterPath(media.backdrop_path || media.poster_path!))})`,
                 }}
                 className='pt-[140%] bg-cover bg-top'
               />
@@ -155,9 +153,7 @@ const MediaDetailsPage = () => {
               <div className='flex flex-col gap-8 px-8'>
                 {/* Title */}
                 <h1 className='text-[2rem] md:text-[3rem] lg:text-[4rem] font-bold'>{`${media.title || media.name} - ${
-                  mediaType === tmdbConfigs.mediaType.movie
-                    ? media.release_date?.split('-')[0]
-                    : media.first_air_date?.split('-')[0]
+                  mediaType === tmdbConfigs.mediaType.movie ? media.release_date?.split('-')[0] : media.first_air_date?.split('-')[0]
                 }`}</h1>
 
                 {/* Title */}
@@ -205,9 +201,7 @@ const MediaDetailsPage = () => {
                 {/* Buttons */}
 
                 {/* Cast */}
-                {media?.credits && (
-                  <Container header='Cast'>{media?.credits && <CastSlide cast={media.credits.cast} />}</Container>
-                )}
+                {media?.credits && <Container header='Cast'>{media?.credits && <CastSlide cast={media.credits.cast} />}</Container>}
                 {/* Cast */}
               </div>
             </div>
@@ -230,17 +224,11 @@ const MediaDetailsPage = () => {
         {/* Media Video */}
 
         {/* Media Backdrops */}
-        {media.images!.backdrops.length > 0 && (
-          <Container header={'backdrops'}>
-            {media.images && <BackDropSlide backdrops={media.images.backdrops || []} />}
-          </Container>
-        )}
+        {media.images!.backdrops.length > 0 && <Container header={'backdrops'}>{media.images && <BackDropSlide backdrops={media.images.backdrops || []} />}</Container>}
         {/* Media Backdrops */}
 
         {/* Media Posters */}
-        {media?.images!.posters.length > 0 && (
-          <Container header={'posters'}>{media.images && <PosterSlides posters={media.images.posters} />}</Container>
-        )}
+        {media?.images!.posters.length > 0 && <Container header={'posters'}>{media.images && <PosterSlides posters={media.images.posters} />}</Container>}
         {/* Media Posters */}
 
         {/* Media Reviews */}

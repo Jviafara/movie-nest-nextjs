@@ -16,14 +16,16 @@ export async function GET(req: NextRequest) {
     await connectDB()
     const reviews = await Review.find({
       user: session?.user.id,
-    }).sort('-createdAt')
+    })
+      .populate('user')
+      .sort('-createdAt')
     return responseHandler.ok(reviews)
   } catch {
     return responseHandler.error()
   }
 }
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest) {
   try {
     const session = await auth.api.getSession({
       headers: req.headers,

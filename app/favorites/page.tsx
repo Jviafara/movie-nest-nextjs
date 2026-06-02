@@ -25,7 +25,7 @@ const FavoriteListPage = () => {
     const getFavorites = async () => {
       dispatch(setGlobalLoading(true))
       const { res, message } = await favoriteApi.getList()
-      dispatch(setGlobalLoading(false))
+      if (res) dispatch(setGlobalLoading(false))
       if (message) toast.error(message)
       if (res.status >= 400) {
         toast.error(res.message)

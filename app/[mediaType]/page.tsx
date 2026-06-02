@@ -46,7 +46,7 @@ const Page = () => {
       })
 
       setMediaLoading(false)
-      dispatch(setGlobalLoading(false))
+      if (res) dispatch(setGlobalLoading(false))
 
       if (message) toast.error(message)
       if (res.status >= 400) {

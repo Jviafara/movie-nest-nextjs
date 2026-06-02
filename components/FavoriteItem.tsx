@@ -18,7 +18,6 @@ const FavoriteItem = ({ media, onRemoved }: FavoriteItemsProps) => {
   const [onRequest, setOnRequest] = useState(false)
 
   const { favoriteList } = useAppSelector(state => state.favoriteList)
-  console.log(media)
 
   const onRemove = async () => {
     if (onRequest) return
