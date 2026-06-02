@@ -16,7 +16,6 @@ const PersonDetailsPage = () => {
   const { personId } = useParams()
 
   const [person, setPerson] = useState<PersonDetails | null>(null)
-  const [personLoading, setPersonLoading] = useState(false)
 
   const dispatch = useAppDispatch()
 
@@ -28,11 +27,9 @@ const PersonDetailsPage = () => {
   useEffect(() => {
     const getPersonDetails = async () => {
       dispatch(setGlobalLoading(true))
-      setPersonLoading(true)
 
       const { res, message } = await personApi.getDetail(personId?.toLocaleString() || '')
-      dispatch(setGlobalLoading(false))
-      setPersonLoading(false)
+      if (res) dispatch(setGlobalLoading(false))
 
       if (message) toast.error(message)
       if (res.status >= 400) {

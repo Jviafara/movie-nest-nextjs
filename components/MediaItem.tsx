@@ -31,7 +31,7 @@ const MediaItem = ({ media, mediaType }: IMediaSlide) => {
 
   return (
     <Link
-      href={`/${mediaType}/${media.id || media.mediaId}`}
+      href={`/${mediaType === 'people' ? 'person' : mediaType}/${media.id || media.mediaId}`}
       className='group relative'
     >
       <div

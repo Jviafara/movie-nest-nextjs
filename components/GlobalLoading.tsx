@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 
 const GlobalLoading = () => {
-  const globalLoading = useAppSelector(state => state.globalLoading)
+  const { globalLoading } = useAppSelector(state => state.globalLoading)
   const pathname = usePathname()
 
   const [routeLoading, setRouteLoading] = useState(false)

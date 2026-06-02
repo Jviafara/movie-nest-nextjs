@@ -95,6 +95,7 @@ export interface Genre {
 }
 
 export interface Favorite {
+  _id?: string
   user: string
   mediaType: 'movie' | 'tv'
   mediaId: string

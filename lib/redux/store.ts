@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import themeModeSlice from './features/themeModeSlice'
 import appStateSlice from './features/appStateSlice'
 import authModalSlice from './features/authModalSlice'
-import { globalLoadingSlice } from './features/globalLoadingSlice'
+import globalLoadingSlice from './features/globalLoadingSlice'
 import favoriteSlice from './features/favoriteSlice'
 
 const rootReducer = combineReducers({
